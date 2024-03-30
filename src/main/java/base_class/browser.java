@@ -10,8 +10,9 @@ import org.openqa.selenium.safari.SafariDriver;
 
 import Enum.browser_enums;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import threadLocal.DriverHelper;
 
-public class browser extends drivers implements browser_enums{
+public class browser extends DriverHelper {
 
 
 	public void launch_browser(String selected_browser) {
@@ -19,18 +20,18 @@ public class browser extends drivers implements browser_enums{
 		case "CHROME":
 			//			WebDriverManager.chromedriver().setup();
 			System.setProperty("webdriver.chrome.driver","./src/main/resources/driver_files/chromedriver.exe" );
-			ChromeOptions co = new ChromeOptions();
+			ChromeOptions chrome_Options = new ChromeOptions();
 			//			co.addArguments("--headless");
-			co.addArguments("--incognito");
-			co.addArguments("--window-size");
-			co.addArguments("--disable-extensions");
-			co.addArguments("--disable-infobars");
-			co.addArguments("--disable-popup-blocking");
-			co.addArguments("--start-maximized");
-			co.addArguments("--enable-automation");
-			co.addArguments("--disable-logging");
+			chrome_Options.addArguments("--incognito");
+			chrome_Options.addArguments("--window-size");
+			chrome_Options.addArguments("--disable-extensions");
+			chrome_Options.addArguments("--disable-infobars");
+			chrome_Options.addArguments("--disable-popup-blocking");
+			chrome_Options.addArguments("--start-maximized");
+			chrome_Options.addArguments("--enable-automation");
+			chrome_Options.addArguments("--disable-logging");
 
-			setDriver(new ChromeDriver(co));			
+			setDriver(new ChromeDriver(chrome_Options));
 			break;
 		case "EDGE":
 			WebDriverManager.edgedriver().setup();
