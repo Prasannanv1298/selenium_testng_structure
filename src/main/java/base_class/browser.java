@@ -8,7 +8,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.safari.SafariDriver;
 
-import Enum.browser_enums;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import threadLocal.DriverHelper;
 
@@ -60,6 +59,7 @@ public class browser extends DriverHelper {
 			break;
 		default:
 			System.out.println(selected_browser + " browser is not found");
+			System.out.println("Test QA");
 			break;
 		}
 	}
