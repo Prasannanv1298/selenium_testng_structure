@@ -59,6 +59,7 @@ public class browser extends drivers implements browser_enums{
 			break;
 		default:
 			System.out.println(selected_browser + " browser is not found");
+			System.out.println("tetst ");
 			break;
 		}
 	}
