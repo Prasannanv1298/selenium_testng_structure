@@ -60,6 +60,7 @@ public class browser extends DriverHelper {
 			break;
 		default:
 			System.out.println(selected_browser + " browser is not found");
+			System.out.println("tetst ");
 			break;
 		}
 	}
