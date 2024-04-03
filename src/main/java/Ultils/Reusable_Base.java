@@ -19,7 +19,12 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -53,8 +58,8 @@ public class Reusable_Base {
 
         extentReport = getExtentReporter();
 
-        ExtentSparkReporter spark_All_Case = new ExtentSparkReporter(WORKING_DIRCETORY + "\\All_Report\\AllCasesReport.html");
-        ExtentSparkReporter spark_Failed_Case = new ExtentSparkReporter(WORKING_DIRCETORY + "\\Failed Cases\\FailedCasesReport.html");
+        ExtentSparkReporter spark_All_Case = new ExtentSparkReporter(checkDirectory("1")+"\\All_Cases_Report"+time_stamp()+".html");
+        ExtentSparkReporter spark_Failed_Case = new ExtentSparkReporter(checkDirectory("0")+"\\Failed_Cases_Report"+time_stamp()+".html");
         spark_Failed_Case.filter().statusFilter().as(new Status[] {Status.FAIL});
         extentReport.attachReporter(spark_All_Case,spark_Failed_Case);
 
@@ -73,7 +78,7 @@ public class Reusable_Base {
         extentReport.flush();
         //sendEmail("Automation Report","Checking Body",System.getProperty("user.dir")+"\\All_Report\\AllCasesReport.html");
         removeExtentReporter();
-        Desktop.getDesktop().browse(new File(WORKING_DIRCETORY + "\\All_Report\\AllCasesReport.html").toURI());
+       // Desktop.getDesktop().browse(new File(WORKING_DIRCETORY + "\\All_Report\\AllCasesReport.html").toURI());
         //Desktop.getDesktop().browse(new File("Failed Cases/FailedCasesReport.html").toURI());
 
     }
@@ -125,6 +130,13 @@ public class Reusable_Base {
 
 
 
+    public void getFile(String fileName){
+
+        Path filePath = Paths.get(WORKING_DIRCETORY);
+
+
+
+    }
 
 
     
