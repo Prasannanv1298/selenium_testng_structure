@@ -14,7 +14,7 @@ import threadLocal.DriverHelper;
 public class browser extends DriverHelper {
 
 
-	public void launch_browser(String selected_browser) {
+	public static void launch_browser(String selected_browser) {
 		switch (selected_browser) {
 		case "CHROME":
 			//			WebDriverManager.chromedriver().setup();
@@ -43,9 +43,12 @@ public class browser extends DriverHelper {
 
 		case "FireFox":	
 			WebDriverManager.firefoxdriver().setup();
-			FirefoxOptions fo = new FirefoxOptions();
-			fo.addArguments("--headless");
-			setDriver(new FirefoxDriver(fo));
+			FirefoxOptions options = new FirefoxOptions();
+			options.addArguments("-private");// nac danh
+			options.addArguments("--incognito");
+			options.addArguments("start-maximized");
+			options.addArguments("--headless");
+			setDriver(new FirefoxDriver(options));
 			break;
 			
 		case "Opera":
@@ -59,7 +62,6 @@ public class browser extends DriverHelper {
 			break;
 		default:
 			System.out.println(selected_browser + " browser is not found");
-			System.out.println("Commit Check");
 			break;
 		}
 	}

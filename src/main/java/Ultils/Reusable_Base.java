@@ -17,6 +17,7 @@ import org.testng.annotations.*;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
@@ -26,22 +27,22 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import static threadLocal.DriverHelper.*;
 import static threadLocal.ExtentReportHelper.*;
+import static base_class.browser.*;
 
 public class Reusable_Base {
 
 
     public static WebDriver driver;
 
+    Properties properties;
+
     Logger log = LogManager.getLogger(Reusable_Base.class);
-
-
-    //Dotenv envData = Dotenv.configure().directory("./src/main/resources/Config").filename("Datas.env").load();
-
     public static ExtentReports extentReport;
 
     public ExtentTest extentTest;
@@ -111,7 +112,9 @@ public class Reusable_Base {
     @Parameters({"browser","url"})
     public void SetallDatas(ITestContext context , String browser, String url) throws Exception {
 
-       // setupBrowser(browser);
+        properties = loadProperties();
+
+        launch_browser(browser);
         getDriver().get(url);
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         getDriver().manage().window().maximize();
@@ -134,12 +137,25 @@ public class Reusable_Base {
 
         Path filePath = Paths.get(WORKING_DIRCETORY);
 
+    }
 
+
+    public Properties loadProperties() {
+
+        Properties properties = new Properties();
+
+        try {
+            FileInputStream file = new FileInputStream("./src/test/resources/Properties/Application.properties");
+            properties.load(file);
+        }catch (Exception exception){
+
+        }
+
+        return (properties != null) ? properties : null;
 
     }
 
 
-    
     public void ACCEPT() {
         try {
             driver.switchTo().alert().accept();
