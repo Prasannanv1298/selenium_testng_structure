@@ -20,12 +20,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -33,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import static threadLocal.DriverHelper.*;
 import static threadLocal.ExtentReportHelper.*;
-import static base_class.browser.*;
+import static base_class.Browser.*;
 
 public class Reusable_Base {
 
@@ -109,14 +106,13 @@ public class Reusable_Base {
 
 
     @BeforeTest
-    @Parameters({"browser","url"})
-    public void SetallDatas(ITestContext context , String browser, String url) throws Exception {
+    public void SetallDatas(ITestContext context) throws Exception {
 
         properties = loadProperties();
 
-        launch_browser(browser);
-        getDriver().get(url);
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        launch_browser(properties.getProperty("BROWSER"));
+        getDriver().get(properties.getProperty("QA_URL"));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.parseInt(properties.getProperty("WAIT"))));
         getDriver().manage().window().maximize();
         driver = getDriver();
         extentTest = extentReport.createTest(context.getName());
@@ -130,15 +126,6 @@ public class Reusable_Base {
         removeDriver();
         System.out.println(getDriver());
     }
-
-
-
-    public void getFile(String fileName){
-
-        Path filePath = Paths.get(WORKING_DIRCETORY);
-
-    }
-
 
     public Properties loadProperties() {
 

@@ -2,12 +2,12 @@ package runner;
 
 import org.testng.annotations.Test;
 
-import base_class.browser;
+import base_class.Browser;
 
 import static java.lang.Thread.sleep;
 import static Enum.Browser_Enum.*;
 
-public class login_runner extends browser {
+public class login_runner extends Browser {
 
 	
 	@Test
