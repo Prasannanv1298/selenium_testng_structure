@@ -49,6 +49,8 @@ public class Reusable_Base {
     @BeforeSuite
     public void beforeSuite(ITestContext context){
 
+      //  WORKING_DIRCETORY = System.getProperty("user.dir");
+
         WORKING_DIRCETORY = System.getProperty("user.dir");
 
 
