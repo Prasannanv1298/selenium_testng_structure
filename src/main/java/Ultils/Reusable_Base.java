@@ -17,26 +17,29 @@ import org.testng.annotations.*;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import static threadLocal.DriverHelper.*;
 import static threadLocal.ExtentReportHelper.*;
+import static base_class.Browser.*;
 
 public class Reusable_Base {
 
 
     public static WebDriver driver;
 
+    Properties properties;
+
     Logger log = LogManager.getLogger(Reusable_Base.class);
-
-
-    //Dotenv envData = Dotenv.configure().directory("./src/main/resources/Config").filename("Datas.env").load();
-
     public static ExtentReports extentReport;
 
     public ExtentTest extentTest;
@@ -46,6 +49,8 @@ public class Reusable_Base {
     @BeforeSuite
     public void beforeSuite(ITestContext context){
 
+      //  WORKING_DIRCETORY = System.getProperty("user.dir");
+
         WORKING_DIRCETORY = System.getProperty("user.dir");
 
 
@@ -53,8 +58,8 @@ public class Reusable_Base {
 
         extentReport = getExtentReporter();
 
-        ExtentSparkReporter spark_All_Case = new ExtentSparkReporter(WORKING_DIRCETORY + "\\All_Report\\AllCasesReport.html");
-        ExtentSparkReporter spark_Failed_Case = new ExtentSparkReporter(WORKING_DIRCETORY + "\\Failed Cases\\FailedCasesReport.html");
+        ExtentSparkReporter spark_All_Case = new ExtentSparkReporter(checkDirectory("1")+"\\All_Cases_Report"+time_stamp()+".html");
+        ExtentSparkReporter spark_Failed_Case = new ExtentSparkReporter(checkDirectory("0")+"\\Failed_Cases_Report"+time_stamp()+".html");
         spark_Failed_Case.filter().statusFilter().as(new Status[] {Status.FAIL});
         extentReport.attachReporter(spark_All_Case,spark_Failed_Case);
 
@@ -73,7 +78,7 @@ public class Reusable_Base {
         extentReport.flush();
         //sendEmail("Automation Report","Checking Body",System.getProperty("user.dir")+"\\All_Report\\AllCasesReport.html");
         removeExtentReporter();
-        Desktop.getDesktop().browse(new File(WORKING_DIRCETORY + "\\All_Report\\AllCasesReport.html").toURI());
+       // Desktop.getDesktop().browse(new File(WORKING_DIRCETORY + "\\All_Report\\AllCasesReport.html").toURI());
         //Desktop.getDesktop().browse(new File("Failed Cases/FailedCasesReport.html").toURI());
 
     }
@@ -103,12 +108,13 @@ public class Reusable_Base {
 
 
     @BeforeTest
-    @Parameters({"browser","url"})
-    public void SetallDatas(ITestContext context , String browser, String url) throws Exception {
+    public void SetallDatas(ITestContext context) throws Exception {
 
-       // setupBrowser(browser);
-        getDriver().get(url);
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        properties = loadProperties();
+
+        launch_browser(properties.getProperty("BROWSER"));
+        getDriver().get(properties.getProperty("QA_URL"));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.parseInt(properties.getProperty("WAIT"))));
         getDriver().manage().window().maximize();
         driver = getDriver();
         extentTest = extentReport.createTest(context.getName());
@@ -123,11 +129,22 @@ public class Reusable_Base {
         System.out.println(getDriver());
     }
 
+    public Properties loadProperties() {
+
+        Properties properties = new Properties();
+
+        try {
+            FileInputStream file = new FileInputStream("./src/test/resources/Properties/Application.properties");
+            properties.load(file);
+        }catch (Exception exception){
+
+        }
+
+        return (properties != null) ? properties : null;
+
+    }
 
 
-
-
-    
     public void ACCEPT() {
         try {
             driver.switchTo().alert().accept();
