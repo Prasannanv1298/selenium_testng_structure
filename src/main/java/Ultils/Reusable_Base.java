@@ -42,7 +42,7 @@ public class Reusable_Base {
     Logger log = LogManager.getLogger(Reusable_Base.class);
     public static ExtentReports extentReport;
 
-    public ExtentTest extentTest;
+    public static ExtentTest extentTest;
 
     private static String WORKING_DIRCETORY;
 
