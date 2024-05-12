@@ -17,8 +17,7 @@ public class Browser extends DriverHelper {
 	public static void launch_browser(String selected_browser) {
 		switch (selected_browser) {
 		case "CHROME":
-			//			WebDriverManager.chromedriver().setup();
-			System.setProperty("webdriver.chrome.driver","./src/main/resources/driver_files/chromedriver.exe" );
+
 			ChromeOptions chrome_Options = new ChromeOptions();
 			//			co.addArguments("--headless");
 			chrome_Options.addArguments("--incognito");
@@ -33,16 +32,16 @@ public class Browser extends DriverHelper {
 			setDriver(new ChromeDriver(chrome_Options));
 			break;
 		case "EDGE":
-			WebDriverManager.edgedriver().setup();
-			EdgeOptions eo= new EdgeOptions();
-			eo.addArguments("start-maximized");
-			eo.addArguments("inprivate");  
-			eo.addArguments("--headless");
-			setDriver(new EdgeDriver(eo));			
+			//WebDriverManager.edgedriver().setup();
+			EdgeOptions edgeOptions= new EdgeOptions();
+			edgeOptions.addArguments("start-maximized");
+			edgeOptions.addArguments("inprivate");
+			edgeOptions.addArguments("--headless");
+			setDriver(new EdgeDriver(edgeOptions));
 			break;
 
 		case "FireFox":	
-			WebDriverManager.firefoxdriver().setup();
+			//WebDriverManager.firefoxdriver().setup();
 			FirefoxOptions options = new FirefoxOptions();
 			options.addArguments("-private");// nac danh
 			options.addArguments("--incognito");
@@ -57,7 +56,7 @@ public class Browser extends DriverHelper {
 			break;
 			
 		case "Safari":
-			WebDriverManager.safaridriver().setup();
+			//WebDriverManager.safaridriver().setup();
 			setDriver(new SafariDriver());
 			break;
 		default:
